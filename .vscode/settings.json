@@ -1,0 +1,33 @@
+{
+    "cSpell.words": [
+        "browserslist",
+        "lingui",
+        "preconnect",
+        "requered",
+        "Signup",
+        "supa",
+        "supabase"
+    ],
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true,
+        "source.fixAll.eslint": true,
+    },
+    "eslint.autoFixOnSave": true,
+    "eslint.validate": [
+        {
+            "language": "html",
+            "autoFix": true
+        },
+        {
+            "language": "javascript",
+            "autoFix": true
+        },
+        {
+            "language": "typescript",
+            "autoFix": true
+        }
+    ],
+    "editor.quickSuggestions": {
+        "strings": true // forces VS Code to trigger completions when editing "string" content
+    }
+}

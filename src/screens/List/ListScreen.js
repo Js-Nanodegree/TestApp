@@ -1,10 +1,10 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 
-import {FlatList, View} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import { FlatList, View } from 'react-native';
+import { Text, useTheme } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
+
 import ListItem from './ListItem';
-import {Text} from 'react-native-paper';
-import {useTheme} from 'react-native-paper';
 
 const LIST_AUTO_UPDATE_RATE = 60 * 1000;
 const LIST_USER_UPDATE_RATE = 15 * 1000;
@@ -13,20 +13,22 @@ const LIST_USER_UPDATE_RATE = 15 * 1000;
  * Экран со списком ивентов (стили не вынес потому что их мало). Ошибка загрузки данных не обработана. Можно обработать
  * используя подключенный @rematch/loading который вернет ошибку
  * @param props
- * @returns {JSX.Element}
+ * @return {JSX.Element}
  * @constructor
  */
-const ListScreen = props => {
-  const isListLoading = useSelector(rootState => rootState.loading.models.list);
-  const list = useSelector(rootState => rootState.list.list);
+
+function ListScreen(props) {
+  const isListLoading = useSelector({ loading }) => loading?.models?.list);
+  const list = useSelector(({ list }) => list?.list);
   const dispatch = useDispatch();
-  const {colors} = useTheme();
+  const { colors } = useTheme();
 
   let lastUpdate = Date.now();
 
   /**
    * При маунте компонента грузим список и создаем интервал который с LIST_AUTO_UPDATE_RATE обновляет список
    */
+
   useEffect(() => {
     dispatch.list.loadList();
 
@@ -52,23 +54,36 @@ const ListScreen = props => {
 
   return (
     <View
-      style={{flex: 1, paddingVertical: 8, backgroundColor: colors.background}}>
+      style={styles.blockStyle}>
       <FlatList
-        keyExtractor={item => item.id}
-        style={{flex: 1}}
-        data={list}
-        refreshing={isListLoading}
-        onRefresh={handleRefresh}
-        renderItem={({item}) => <ListItem item={item} />}
         ListEmptyComponent={
           <View
-            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            style={styles.emptyStyle}>
             <Text>No Events</Text>
           </View>
         }
+        data={list}
+        keyExtractor={item => item.id}
+        refreshing={isListLoading}
+        renderItem={({ item }) => <ListItem item={item} />}
+        style={{ flex: 1 }}
+        onRefresh={handleRefresh}
       />
     </View>
   );
-};
+}
 
 export default ListScreen;
+
+const styles = StyleSheet.create({
+  blockStyle: {
+    backgroundColor: colors.background,
+    flex: 1,
+    paddingVertical: 8,
+  },
+  emptyStyle: {
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
+  },
+})

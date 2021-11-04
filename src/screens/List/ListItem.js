@@ -1,31 +1,61 @@
 import React from 'react';
 
-import {Image} from 'react-native';
-import {List} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
+import {Image, StyleSheet} from 'react-native';
+import {List} from 'react-native-paper';
 
-/**
- * Компонент отрисовки Итема для списка. Не вынес в папку компонентов потому что это не общий компонент
+/*
+ * Компонент отрисовки Итема для списка.
+ * Не вынес в папку компонентов потому что это не общий компонент
  * @param item
- * @returns {JSX.Element}
+ * @return {JSX.Element}
  * @constructor
  */
+
+/**
+ * Контекс лучше собирать вне отображения страницы а прирендеренге
+ */
+
 const ListItem = ({item}) => {
   const navigation = useNavigation();
+  const ctx = {
+    'description': `Make: ${item?.type}`,
+    'onPress': () => navigation.navigate('ItemScreen', {item}),
+    'title': `Author: ${item?.actor.display_login}`,
+  };
+
+  const leftImage = React.useCallback(
+    () => {
+      const uri = item.actor.avatar_url;
+
+      return (
+          <React.Suspense
+              fallback={styles.ItemStyle}
+          >
+              <Image
+                  source={{uri}}
+                  style={styles.ItemStyle}
+              />
+          </React.Suspense>)
+    },
+    [item],
+  )
 
   return (
-    <List.Item
-      title={'Author: ' + item?.actor.display_login}
-      description={'Make: ' + item?.type}
-      left={() => (
-        <Image
-          source={{uri: item.actor.avatar_url}}
-          style={{height: 44, width: 44, borderRadius: 22}}
-        />
-      )}
-      onPress={() => navigation.navigate('ItemScreen', {item})}
-    />
+      <List.Item
+          left={leftImage}
+          {...ctx}
+      />
   );
 };
 
-export default ListItem;
+export default React.memo(ListItem);
+
+
+const styles = StyleSheet.create({
+  'ItemStyle': {
+    'borderRadius': 22,
+    'height': 44,
+    'width': 44,
+  },
+});
