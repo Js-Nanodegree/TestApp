@@ -17,9 +17,19 @@ import {Text, useTheme} from 'react-native-paper';
 function ItemRow({title, desc, descLinkable}) {
   const {colors} = useTheme();
 
-  const textAddLink = descLinkable ?
-    {'onPress': () => Linking.openURL(desc)} :
-    {};
+  let textAddLink = {
+      'disable': true,
+      'onPress': () => null,
+    }
+  if (title.includes('Email')) {
+    textAddLink = {
+      'disabled': false,
+      'onPress': () => Linking.openURL(`mailto:${desc}`),
+    }
+  }
+
+  const description = desc || `No ${title} data`
+
   return (
       <View style={styles.sectionContainer}>
           <Text style={[styles.sectionTitle, {'color': colors.primary}]}>
@@ -30,7 +40,7 @@ function ItemRow({title, desc, descLinkable}) {
               style={[styles.sectionDescription]}
               {...textAddLink}
           >
-              {desc || `No ${title} data`}
+              {description}
           </Text>
       </View>
   );
@@ -52,4 +62,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ItemRow;
+export default React.memo(ItemRow);

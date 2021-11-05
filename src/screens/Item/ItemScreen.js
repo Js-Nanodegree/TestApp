@@ -1,105 +1,101 @@
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable object-property-newline */
 import React, {useCallback} from 'react';
 
 import {Image, Linking, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Title, useTheme} from 'react-native-paper';
 
+import {CommitSelect} from './CommitSelect';
+import {data} from './data';
 import ItemRow from './ItemRow';
 
-/**
- * Экран просмотра Итема.
- * Добавлен функционал нажатия на иконку и имя юзера
- * чтобы перейти на более детальную информацию
- * (Из апи). В продакшен вынес бы в отдельный компонент headContainer,
- * и сделал бы компоненты из ItemRow
- * @param route
- * @param navigation
- * @return {JSX.Element}
- * @constructor
- */
-function ItemScreen({route, navigation}) {
+function ItemScreen({route}) {
   const {item} = route.params;
   const {colors} = useTheme();
 
   const userUrl = item.actor.url;
 
-  const handlePress = useCallback(
-    async () => {
-      await Linking.openURL(userUrl);
-    },
-    [userUrl],
-  );
+  const handlePress = useCallback(async () => {
+    await Linking.openURL(userUrl);
+  }, [userUrl]);
 
   const onPress = () => Linking.openURL(item.repo.url);
+
+  const title = item?.actor?.display_login;
+  const uri = {'uri': item?.actor?.avatar_url};
+  const repoPush = {item, ...data};
 
   return (
       <View style={[styles.container, {'backgroundColor': colors.background}]}>
           <View style={styles.headContainer}>
               <TouchableOpacity onPress={onPress}>
                   <Title>
-                      {item?.actor?.display_login}
+                      {title}
                   </Title>
               </TouchableOpacity>
 
               <TouchableOpacity onPress={handlePress}>
-                  <Image
-                      source={{'uri': item?.actor?.avatar_url}}
-                      style={styles.image}
-                  />
+                  <React.Suspense fallback={View}>
+                      <Image
+                          source={uri}
+                          style={styles.image}
+                      />
+                  </React.Suspense>
               </TouchableOpacity>
           </View>
 
-          <ItemRow
-              desc={item?.repo.name}
-              title="Repo"
-          />
+          {repoPush.itemRow().map((value, index) => (
+              <View
+                  key={index}
+              >
+                  <React.Suspense fallback={View}>
+                      <ItemRow
+                          key={index}
+                          {...value}
+                      />
+                  </React.Suspense>
+              </View>
+          ))}
 
-          <ItemRow
-              desc={item?.type}
-              title="Make"
-          />
+          <View>
+              {repoPush.pushRepo().map((value, index) => {
+          const keys = Object.keys(value);
 
-          <ItemRow
-              desc={item?.created_at}
-              title="Date"
-          />
+          if (keys.includes('commits')) {
+            return value?.commits?.map((itemMap, idx) => (
+                <View
+                    key={`${idx}_item_commit`}
+                >
+                    <React.Suspense fallback={View}>
+                        <CommitSelect
+                            idx={idx}
+                            item={itemMap}
+                        />
+                    </React.Suspense>
+                </View>
+            ));
+          }
 
-          {
-
-        /*
-         * Не обрабатываю случай когда может быть несколько ивентов
-         * В продакшен коде этот кусок я бы вынес в отдельные компоненты
-         * которые какой нибудь логикой
-         * например с помощью switch выбирались как отрисоваться
-         */
-        item.type === 'PushEvent' ?
-            <View>
-                <ItemRow
-                    desc={item.payload.push_id}
-                    title="Push ID"
-                />
-
-                <ItemRow
-                    desc={item.payload?.commits?.[0]?.author?.name}
-                    title="Author"
-                />
-
-                <ItemRow
-                    descLinkable
-                    desc={item.payload?.commits?.[0]?.author?.email}
-                    title="Author Email"
-                />
-
-                <ItemRow
-                    desc={item.payload?.commits?.[0].message}
-                    title="Message"
-                />
-            </View> :
-            <View />
-
-      }
+          return (
+              <View key={`${index}_value`}>
+                  <React.Suspense fallback={View}>
+                      <ItemRow
+                          {...value}
+                      />
+                  </React.Suspense>
+              </View>)
+            })}
+          </View>
       </View>
   );
 }
+
+/*
+ * Не обрабатываю случай когда может быть несколько ивентов
+ * В продакшен коде этот кусок я бы вынес в отдельные компоненты
+ * которые какой нибудь логикой
+ * например с помощью switch выбирались как отрисоваться
+ */
 
 const styles = StyleSheet.create({
   'container': {
@@ -117,4 +113,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ItemScreen;
+export default React.memo(ItemScreen);

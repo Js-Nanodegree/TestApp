@@ -123,6 +123,7 @@ module.exports = {
       },
     ],
     'react/jsx-wrap-multilines': ['off'],
+    'react/no-multi-comp': 'off',
     'react/no-unstable-nested-components': ['off'],
     'react/prop-types': ['off'],
     'react/react-in-jsx-scope': 'off',
