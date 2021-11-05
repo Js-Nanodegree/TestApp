@@ -1,5 +1,6 @@
 import {init} from '@rematch/core';
 import loadingPlugin from '@rematch/loading';
+import updatedPlugin from '@rematch/updated';
 
 import * as models from './models';
 
@@ -10,5 +11,5 @@ import * as models from './models';
  */
 export const store = init({
   models,
-  'plugins': [loadingPlugin()],
+  'plugins': [loadingPlugin(), updatedPlugin()],
 });

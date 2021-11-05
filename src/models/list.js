@@ -9,8 +9,8 @@ import api from '../api';
 export const list = {
   'effects': (dispatch) => ({
     async loadList(payload, rootState) {
-      const loadedList = await api.getList();
-      this.setList(loadedList.data);
+      const loadedList = await api.git_events(payload);
+      return this.setList(loadedList);
     },
   }),
   'reducers': {

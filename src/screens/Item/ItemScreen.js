@@ -36,13 +36,13 @@ function ItemScreen({route, navigation}) {
           <View style={styles.headContainer}>
               <TouchableOpacity onPress={onPress}>
                   <Title>
-                      {item?.actor.display_login}
+                      {item?.actor?.display_login}
                   </Title>
               </TouchableOpacity>
 
               <TouchableOpacity onPress={handlePress}>
                   <Image
-                      source={{'uri': item.actor.avatar_url}}
+                      source={{'uri': item?.actor?.avatar_url}}
                       style={styles.image}
                   />
               </TouchableOpacity>
@@ -54,12 +54,12 @@ function ItemScreen({route, navigation}) {
           />
 
           <ItemRow
-              desc={item.type}
+              desc={item?.type}
               title="Make"
           />
 
           <ItemRow
-              desc={item.created_at}
+              desc={item?.created_at}
               title="Date"
           />
 
@@ -79,18 +79,18 @@ function ItemScreen({route, navigation}) {
                 />
 
                 <ItemRow
-                    desc={item.payload.commits[0]?.author?.name}
+                    desc={item.payload?.commits?.[0]?.author?.name}
                     title="Author"
                 />
 
                 <ItemRow
                     descLinkable
-                    desc={item.payload.commits[0]?.author?.email}
+                    desc={item.payload?.commits?.[0]?.author?.email}
                     title="Author Email"
                 />
 
                 <ItemRow
-                    desc={item.payload.commits[0].message}
+                    desc={item.payload?.commits?.[0].message}
                     title="Message"
                 />
             </View> :
