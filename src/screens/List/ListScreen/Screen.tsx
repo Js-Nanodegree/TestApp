@@ -11,28 +11,30 @@ import ListItem from '../ListItem';
 
 const ITEM_HEIGHT = 100;
 
-interface iList{
-    handleRefresh:()=>void;
-    list:iData[];
+interface iList {
+    handleRefresh: () => void;
+    list: iData[];
     time: number;
     error: boolean | string;
     loading: boolean;
-    message:string
-  }
+    message: string
+}
 
-  interface iRender{
-      item:iData;
-      index:number;
-  }
+interface iRender {
+    item: iData;
+    index: number;
+}
 
-export function Screen({handleRefresh, list, error, loading, message}: iList) {
+export function Screen({handleRefresh, list, error, loading, message, time}: iList) {
     const {colors} = useTheme();
     const ref = React.useRef(null);
     const insets = useSafeAreaInsets();
-    let errStr=message;
-    if (typeof errStr == 'boolean') {
-        errStr='No Events';
+    let errStr = 'No Events';
+    if (message) {
+        errStr = message;
     }
+
+    console.log();
 
     const EmptyList = () => (
         <React.Suspense fallback={View}>
@@ -48,9 +50,9 @@ export function Screen({handleRefresh, list, error, loading, message}: iList) {
         list = [];
     }
 
-    const RenderItem = React.useCallback(({item, index}:iRender) => (<ListItem idx={index} item={item} />), [list]);
+    const RenderItem = React.useCallback(({item, index}: iRender) => (<ListItem idx={index} item={item} />), [list]);
 
-    const GetItemLayout = React.useCallback((_data, index:number) => (
+    const GetItemLayout = React.useCallback((_data, index: number) => (
         {
             index,
             'length': ITEM_HEIGHT,

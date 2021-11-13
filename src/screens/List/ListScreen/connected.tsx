@@ -7,58 +7,10 @@ import API from 'src/api';
 import useNavigate from 'src/hooks/useNavigate';
 import {iData} from 'src/screens/List/ListItem';
 
+import initial from './helper/initial';
+import StateStatus from './helper/StateStatus';
+import timer from './helper/timer';
 import {Screen} from './Screen';
-
-
-const LIST_AUTO_UPDATE_RATE = 60 * 1000;
-export const LIST_USER_UPDATE_RATE = 15 * 1000;
-
-const StateStatus = {
-  'conn': {
-    'error': false,
-    'loading': false,
-    'message': '',
-    'time': Date.now(),
-  },
-  'diff': {
-    'error': false,
-    'loading': true,
-    'message': '',
-    'time': Date.now(),
-
-  },
-  'err': {
-    'error': true,
-    'loading': true,
-    'message': 'Wait update data',
-    'time': Date.now(),
-  },
-  'timeOut': {
-    'error': true,
-    'loading': false,
-    'message': 'TimeNotOut',
-    'time': Date.now(),
-  },
-};
-
-const timer = {
-  'LIST_AUTO_UPDATE_RATE': 60 * 1000,
-  'LIST_USER_UPDATE_RATE': 15 * 1000,
-  RC_DIFF(time: any) {
-    let timer = 0;
-    if (this.LIST_USER_UPDATE_RATE) {
-      timer = this.LIST_USER_UPDATE_RATE;
-    }
-    return time + timer > Date.now();
-  },
-  RC_TIMER(time: any) {
-    let timer = 0;
-    if (this.LIST_USER_UPDATE_RATE) {
-      timer = this.LIST_USER_UPDATE_RATE;
-    }
-    return time + timer - Date.now();
-  },
-};
 
 interface iState {
   time: number;
@@ -75,14 +27,6 @@ export interface iList {
   error: boolean | string;
   loading: boolean;
 }
-
-const initial={
-  'data': [],
-  'error': false,
-  'loading': false,
-  'message': '',
-  'time': Date.now(),
-};
 
 function ListScreen() {
   const isFocused = useIsFocused();
@@ -161,7 +105,7 @@ function ListScreen() {
       if (isFocused) {
         onLoad();
       }
-    }, LIST_AUTO_UPDATE_RATE);
+    }, timer.LIST_AUTO_UPDATE_RATE);
 
     return () => {
       if (ref.current) {
