@@ -37,6 +37,7 @@ module.exports = {
       }
     },
     "rules": {
+      "require-jsdoc":'off',
       "sort-keys-fix/sort-keys-fix": [1],
       "indent": "off",
       "quote-props": [
