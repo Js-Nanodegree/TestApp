@@ -11,6 +11,7 @@
 'use strict';
 
 import React from 'react';
+
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 // @ts-ignore
 import openURLInBrowser from 'react-native/Libraries/Core/Devtools/openURLInBrowser';
@@ -18,25 +19,25 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 const links = [
   {
-    title: 'React',
-    link: 'https://reactjs.org/',
-    description: 'JavaScript library for building user interfaces',
+    'description': 'JavaScript library for building user interfaces',
+    'link': 'https://reactjs.org/',
+    'title': 'React',
   },
   {
-    title: 'Redux',
-    link: 'https://redux.js.org/',
-    description: 'A Predictable State Container for JS Apps',
+    'description': 'A Predictable State Container for JS Apps',
+    'link': 'https://redux.js.org/',
+    'title': 'Redux',
   },
   {
-    title: 'Redux Toolkit',
-    link: 'https://redux-toolkit.js.org/',
-    description:
+    'description':
       'The official, opinionated, batteries-included toolset for efficient Redux development',
+    'link': 'https://redux-toolkit.js.org/',
+    'title': 'Redux Toolkit',
   },
   {
-    title: 'React Redux',
-    link: 'https://react-redux.js.org',
-    description: 'Official React bindings for Redux',
+    'description': 'Official React bindings for Redux',
+    'link': 'https://react-redux.js.org',
+    'title': 'React Redux',
   },
 ];
 
@@ -48,8 +49,8 @@ const LinkList = () => (
           <View style={styles.separator} />
           <TouchableOpacity
             accessibilityRole={'button'}
-            onPress={() => openURLInBrowser(item.link)}
-            style={styles.linkContainer}>
+            style={styles.linkContainer}
+            onPress={() => openURLInBrowser(item.link)}>
             <Text style={styles.link}>{item.title}</Text>
             <Text style={styles.description}>{item.description}</Text>
           </TouchableOpacity>
@@ -60,33 +61,33 @@ const LinkList = () => (
 );
 
 const styles = StyleSheet.create({
-  container: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  'container': {
+    'marginTop': 32,
+    'paddingHorizontal': 24,
   },
-  linkContainer: {
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 8,
+  'description': {
+    'color': Colors.dark,
+    'flex': 3,
+    'fontSize': 18,
+    'fontWeight': '400',
+    'paddingVertical': 16,
   },
-  link: {
-    flex: 2,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.primary,
+  'link': {
+    'color': Colors.primary,
+    'flex': 2,
+    'fontSize': 18,
+    'fontWeight': '400',
   },
-  description: {
-    flex: 3,
-    paddingVertical: 16,
-    fontWeight: '400',
-    fontSize: 18,
-    color: Colors.dark,
+  'linkContainer': {
+    'alignItems': 'center',
+    'flexDirection': 'row',
+    'flexWrap': 'wrap',
+    'justifyContent': 'space-between',
+    'paddingVertical': 8,
   },
-  separator: {
-    backgroundColor: Colors.light,
-    height: 1,
+  'separator': {
+    'backgroundColor': Colors.light,
+    'height': 1,
   },
 });
 

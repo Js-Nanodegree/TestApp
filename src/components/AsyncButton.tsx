@@ -1,4 +1,7 @@
+/* eslint-disable import/namespace */
+/* eslint-disable require-jsdoc */
 import React, {useRef} from 'react';
+
 import {
   Animated,
   GestureResponderEvent,
@@ -27,27 +30,27 @@ export function AsyncButton({
     // TODO: Maybe change to Animated.sequence
     Animated.sequence([
       Animated.timing(progress, {
-        toValue: 1,
-        duration: 1000,
-        useNativeDriver: false,
+        'duration': 1000,
+        'toValue': 1,
+        'useNativeDriver': false,
       }),
       Animated.timing(opacity, {
-        toValue: 0,
-        duration: 200,
-        useNativeDriver: false,
-      })
+        'duration': 200,
+        'toValue': 0,
+        'useNativeDriver': false,
+      }),
     ]).start();
   };
 
   const progressInterpolate = progress.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0%', '100%'],
-    extrapolate: 'clamp',
+    'extrapolate': 'clamp',
+    'inputRange': [0, 1],
+    'outputRange': ['0%', '100%'],
   });
 
   const progressStyle: Animated.WithAnimatedObject<ViewStyle> = {
-    width: progressInterpolate,
     opacity,
+    'width': progressInterpolate,
   };
 
   return (
@@ -61,11 +64,11 @@ export function AsyncButton({
 }
 
 const styles = StyleSheet.create({
-  progress: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    backgroundColor: 'rgba(112,76,182, 0.15)',
+  'progress': {
+    'backgroundColor': 'rgba(112,76,182, 0.15)',
+    'bottom': 0,
+    'left': 0,
+    'position': 'absolute',
+    'top': 0,
   },
 });

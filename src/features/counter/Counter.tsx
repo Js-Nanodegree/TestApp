@@ -1,4 +1,7 @@
+/* eslint-disable import/namespace */
+/* eslint-disable require-jsdoc */
 import React, {useState} from 'react';
+
 import {
   StyleSheet,
   Text,
@@ -6,8 +9,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
 import {AsyncButton} from '../../components/AsyncButton';
+
 import {
   decrement,
   increment,
@@ -41,9 +46,9 @@ export function Counter() {
       </View>
       <View style={styles.row}>
         <TextInput
+          keyboardType="numeric"
           style={styles.textbox}
           value={incrementAmount}
-          keyboardType="numeric"
           onChangeText={setIncrementAmount}
         />
         <View>
@@ -55,8 +60,8 @@ export function Counter() {
             <Text style={styles.buttonText}>Add Amount</Text>
           </TouchableOpacity>
           <AsyncButton
-            style={styles.button}
             disabled={status !== 'idle'}
+            style={styles.button}
             onPress={() =>
               dispatch(incrementAsync(Number(incrementAmount) || 0))
             }>
@@ -69,37 +74,37 @@ export function Counter() {
 }
 
 const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
+  'button': {
+    'backgroundColor': 'rgba(112, 76, 182, 0.1)',
+    'borderRadius': 2,
+    'margin': 2,
+    'paddingBottom': 4,
+    'paddingLeft': 12,
+    'paddingRight': 12,
   },
-  value: {
-    fontSize: 78,
-    paddingHorizontal: 16,
-    marginTop: 2,
+  'buttonText': {
+    'color': 'rgb(112, 76, 182)',
+    'fontSize': 32,
+    'textAlign': 'center',
   },
-  button: {
-    backgroundColor: 'rgba(112, 76, 182, 0.1)',
-    borderRadius: 2,
-    paddingLeft: 12,
-    paddingRight: 12,
-    paddingBottom: 4,
-    margin: 2,
+  'row': {
+    'alignItems': 'center',
+    'flexDirection': 'row',
+    'flexWrap': 'wrap',
+    'justifyContent': 'center',
   },
-  buttonText: {
-    color: 'rgb(112, 76, 182)',
-    fontSize: 32,
-    textAlign: 'center',
+  'textbox': {
+    'borderWidth': 1,
+    'fontSize': 48,
+    'justifyContent': 'center',
+    'marginRight': 8,
+    'padding': 2,
+    'textAlign': 'center',
+    'width': 64,
   },
-  textbox: {
-    fontSize: 48,
-    padding: 2,
-    width: 64,
-    textAlign: 'center',
-    marginRight: 8,
-    borderWidth: 1,
-    justifyContent: 'center',
+  'value': {
+    'fontSize': 78,
+    'marginTop': 2,
+    'paddingHorizontal': 16,
   },
 });

@@ -1,6 +1,8 @@
 import {useRef, useEffect} from 'react';
+
 import {useWindowDimensions, Animated} from 'react-native';
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
+
 import {RootState, AppDispatch} from '../store';
 
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
@@ -20,22 +22,22 @@ export const useBounceAnimation = (value = 10) => {
   const bounce = useRef(new Animated.Value(0)).current;
 
   bounce.interpolate({
-    inputRange: [-300, -100, 0, 100, 101],
-    outputRange: [300, 0, 1, 0, 0],
+    'inputRange': [-300, -100, 0, 100, 101],
+    'outputRange': [300, 0, 1, 0, 0],
   });
 
   useEffect(() => {
     Animated.loop(
       Animated.sequence([
         Animated.timing(bounce, {
-          toValue: value,
-          duration: 1500,
-          useNativeDriver: true,
+          'duration': 1500,
+          'toValue': value,
+          'useNativeDriver': true,
         }),
         Animated.timing(bounce, {
-          toValue: 0,
-          duration: 1500,
-          useNativeDriver: true,
+          'duration': 1500,
+          'toValue': 0,
+          'useNativeDriver': true,
         }),
       ]),
     ).start();
